@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>אטלס המומחים</title>
+<title>מצפן המומחים</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -551,6 +551,29 @@ body.admin .sidefoot .pub{display:none}body.admin .sidefoot .adm{display:inline!
   .go2{width:36px;height:36px}
   .resultline{font-size:14.5px}
 }
+
+body.admin .tabs{grid-template-columns:repeat(5,1fr)}
+.gsum{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px}
+.gsum div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:13.5px;color:var(--muted);min-width:110px}
+.gsum b{display:block;font-family:var(--serif);font-size:24px;color:var(--ink);line-height:1.2}
+.gopt{display:flex;align-items:center;gap:8px;margin:0 0 12px;font-size:14px;color:var(--muted);cursor:pointer;width:max-content}
+.gwrap{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:14px;-webkit-overflow-scrolling:touch}
+.gtab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
+.gtab th,.gtab td{padding:9px 8px;text-align:center;border-bottom:1px solid var(--line-2);white-space:nowrap}
+.gtab thead th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ivory)}
+.gtab .nm{position:sticky;right:0;background:var(--paper);text-align:right;z-index:1;box-shadow:-1px 0 0 var(--line);min-width:118px;max-width:170px;white-space:normal}
+.gtab thead .nm,.gtab tfoot .nm{background:var(--ivory)}
+.gtab td.nm button{border:0;background:none;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;padding:0;text-align:right;text-decoration:underline;text-decoration-color:var(--gold-2);text-underline-offset:3px}
+.gtab td.nm small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.gk,.gx{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;font-size:13px;font-weight:700;line-height:1}
+.gk{background:#E3F2E7;color:#23733C}
+.gx{background:#FBE4E1;color:#B3261E}
+.gtab tfoot td{font-size:12px;color:#B3261E;background:var(--ivory);border-bottom:0;font-weight:600}
+.gtab tfoot td.ok{color:#23733C}
+.gpct{font-weight:700;color:var(--ink)}
+.gtab tr:hover td{background:#FBF7EE}
+.gnote{font-size:13px;color:var(--muted);margin:10px 2px 0}
+.empty .btn{margin-top:14px}
 </style>
 </head>
 <body>
@@ -602,20 +625,21 @@ body.admin .sidefoot .pub{display:none}body.admin .sidefoot .adm{display:inline!
 
 <div class="app">
   <aside class="side">
-    <div class="brand"><div class="mark">א</div><div><b>אטלס המומחים</b></div></div>
+    <div class="brand"><div class="mark">מ</div><div><b>מצפן המומחים</b></div></div>
     <div class="navlabel">מרחב עבודה</div>
     <nav class="nav" id="nav">
       <button data-p="home" class="on"><svg><use href="#i-home"/></svg>עמוד הבית</button>
       <button data-p="experts"><svg><use href="#i-list"/></svg>מאגר מומחים<span class="count" id="cE"></span></button>
       <button data-p="suggest"><svg><use href="#i-send"/></svg>הצעת מומחה</button>
       <button data-p="inbox" class="adm"><svg><use href="#i-inbox"/></svg>הצעות ממתינות<span class="count" id="cS"></span></button>
+      <button data-p="gaps" class="adm"><svg><use href="#i-check"/></svg>מה חסר במאגר<span class="count" id="cG"></span></button>
     </nav>
     <button class="addbtn adm" onclick="editExpert()"><svg width="16" height="16" style="stroke:currentColor;fill:none;stroke-width:2"><use href="#i-plus"/></svg>הוספת מומחה</button>
     <div class="sidefoot"><span class="dot"></span><span class="pub">תצוגה לחברי הקבוצה</span><span class="adm">מצב עריכה · גישת מנהל</span></div>
   </aside>
 
   <div>
-    <div class="mobilebar"><div class="mark">א</div><b>אטלס המומחים</b><button class="addm adm" onclick="editExpert()">+ מומחה</button></div>
+    <div class="mobilebar"><div class="mark">מ</div><b>מצפן המומחים</b><button class="addm adm" onclick="editExpert()">+ מומחה</button></div>
     <main class="main" id="main"></main>
   </div>
 </div>
@@ -624,12 +648,14 @@ body.admin .sidefoot .pub{display:none}body.admin .sidefoot .adm{display:inline!
   <button data-p="home" class="on"><svg><use href="#i-home"/></svg>בית</button>
   <button data-p="experts"><svg><use href="#i-list"/></svg>מומחים</button>
   <button data-p="suggest"><svg><use href="#i-send"/></svg>הצעה</button>
+  <button data-p="inbox" class="adm"><svg><use href="#i-inbox"/></svg>ממתינות</button>
+  <button data-p="gaps" class="adm"><svg><use href="#i-check"/></svg>חוסרים</button>
 </nav>
 
 <div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer" aria-modal="true" role="dialog"></aside>
 <div class="shback" onclick="closeSheet()"></div>
-<div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="grab"></div><div class="shhead"><h4 id="shT"></h4><button class="shx" onclick="closeSheet()" aria-label="סגירה">✕</button></div><div class="opts" id="shO"></div><div class="shfoot adm" id="shAdm" hidden><button class="link" onclick="closeSheet();addCategory()">+ הוספת תחום ידע</button></div></div>
+<div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="grab"></div><div class="shhead"><h4 id="shT"></h4><button class="shx" onclick="closeSheet()" aria-label="סגירה">✕</button></div><div class="opts" id="shO"></div><div class="shfoot adm" id="shAdm" hidden><button class="link" onclick="closeSheet(true);addCategory()">+ הוספת תחום ידע</button></div></div>
 <div class="modal" id="modal"><div class="dialog" id="dialog"></div></div>
 <div class="modal confirm" id="confirm"><div class="dialog"><div class="hd"><h3>מחיקת מומחה</h3></div><div class="bd" id="confirmText"></div><div class="ft"><button class="btn danger" style="margin:0" id="confirmYes">מחיקה</button><button class="btn" onclick="hide('confirm')">ביטול</button></div></div></div>
 <div class="toast" id="toast"></div>
@@ -697,12 +723,14 @@ const norm = x => ({secondaryCategoryIds:[],assistanceTopics:[],phone:'',email:'
 function run(fn, ...a){
   if (!LIVE) return Promise.resolve(demoRun(fn, ...a));
   const v = VIEW || K0, R = {data:1,image:1,checkKey:1,listSuggestions:1};
-  return (R[fn]
+  const NET = 'אין חיבור לשרת, נסו שוב', BAD = 'השרת לא הגיב כרגיל, נסו שוב';
+  const once = () => (R[fn]
     ? fetch(API + '?fn=' + encodeURIComponent(fn) + '&v=' + encodeURIComponent(v) + '&a=' + encodeURIComponent(JSON.stringify(a)))
     : fetch(API, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({fn, args:a, v})})
-  ).catch(() => { throw new Error('אין חיבור לשרת, נסו שוב'); })
-   .then(r => r.json().catch(() => { throw new Error('אירעה שגיאה'); }))
+  ).catch(() => { throw new Error(NET); })
+   .then(r => r.json().catch(() => { throw new Error(BAD); }))
    .then(j => { if (!j || !j.ok) throw new Error((j && j.error) || 'אירעה שגיאה'); return j.result; });
+  return R[fn] ? once().catch(e => (e.message===NET || e.message===BAD) ? new Promise(r=>setTimeout(r,1500)).then(once) : Promise.reject(e)) : once();
 }
 function demoRun(fn, p){
   if (fn==='setSuggestionStatus') { const x=(DEMO.sugs||[]).find(z=>z.id===arguments[2]); if(x) x.status='done'; return true; }
@@ -718,8 +746,10 @@ function demoRun(fn, p){
   return '';
 }
 let tt; function toast(t){ const e=$('#toast'); e.textContent=t; e.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>e.classList.remove('on'),2600); }
-function show(id){ $('#'+id).classList.add('on'); }
-function hide(id){ $('#'+id).classList.remove('on'); if(id==='modal') editing=null; }
+const ovPush = () => { try{ if (!(history.state && history.state.ov)) history.pushState({ov:1}, '', location.href); }catch(e){} };
+const ovPop = () => { try{ if (history.state && history.state.ov) history.back(); }catch(e){} };
+function show(id){ $('#'+id).classList.add('on'); if (id==='modal' || id==='drawer') ovPush(); }
+function hide(id, silent){ const el = $('#'+id), was = el.classList.contains('on'); el.classList.remove('on'); if(id==='modal'){ editing=null; if (was && !silent) ovPop(); } }
 
 async function load(){
   try{
@@ -727,9 +757,11 @@ async function load(){
     D.categories = (r.categories||[]).filter(c=>c.active!==false).sort((a,b)=>a.sortOrder-b.sortOrder);
     D.experts = (r.experts||[]).map(norm);
     loaded = true; counts(); render(); loadPhotos();
-  }catch(e){ loaded = true; $('#main').innerHTML = `<div class="empty"><b>לא הצלחנו לטעון את המאגר</b>${esc(e.message)}</div>`; }
+  }catch(e){ loaded = true; $('#main').innerHTML = /גישה/.test(e.message)
+    ? `<div class="empty"><b>הקישור לא שלם</b>כדי לצפות במאגר צריך את הקישור המלא שנשלח בקבוצה, עם הקוד שבסופו.<br>אפשר לבקש אותו מאדי.</div>`
+    : `<div class="empty"><b>לא הצלחנו לטעון את המאגר</b>${esc(e.message)}<br><button class="btn dark" onclick="reloadData()">ניסיון נוסף</button></div>`; }
 }
-function counts(){ $('#cS').textContent = SUGS.length || ''; $('#cE').textContent = D.experts.length; }
+function counts(){ $('#cS').textContent = SUGS.length || ''; $('#cE').textContent = D.experts.length; $('#cG').textContent = D.experts.filter(x=>gapsOf(x).length).length || ''; }
 async function loadPhotos(){
   await Promise.all(D.experts.filter(x=>x.imageDriveFileId && !x.thumb && !photos[x.id]).map(async x=>{
     try{ const u = await run('image', x.id); if (u){ photos[x.id]=u; document.querySelectorAll(`[data-av="${CSS.escape(x.id)}"]`).forEach(el=>el.innerHTML=`<img alt="" src="${u}">`); } }catch(e){}
@@ -768,11 +800,11 @@ document.querySelectorAll('#nav button,#tabs button').forEach(b=>b.onclick=()=>g
 
 function render(){
   const m = $('#main');
-  if (!loaded){ m.innerHTML = `<div class="pagehead"><h1>אטלס המומחים</h1></div><div class="grid">${'<div class="sk"></div>'.repeat(6)}</div>`; return; }
-  ({home:renderHome, experts:renderExperts, suggest:renderSuggest, inbox:renderInbox}[S.page]||renderHome)(m);
+  if (!loaded){ m.innerHTML = `<div class="pagehead"><h1>מצפן המומחים</h1></div><div class="grid">${'<div class="sk"></div>'.repeat(6)}</div>`; return; }
+  ({home:renderHome, experts:renderExperts, suggest:renderSuggest, inbox:ADMIN?renderInbox:renderHome, gaps:ADMIN?renderGaps:renderHome}[S.page]||renderHome)(m);
 }
 
-const HEADLINE = 'אטלס <em>המומחים</em>';
+const HEADLINE = 'מצפן <em>המומחים</em>';
 const MASTV = 'night';
 const LOGO = 'data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAACQCAMAAADA1J4TAAAAkFBMVEUcVaYeT5kgKTSduNoVNmiFnLdKV2YeMk4IL2VwhJo4c8Vrm9w5RFAPIDZaanxneY+i0PsaQX1IfsV9kqqUsNEIKFNLfLwZRX9beaIAAAEXMlesye0nZ8cMLVUNHDEKFiYSKUgKERwTLU4SJkMPIjsMGCsqZrkXMFKQqMax1\/xkdosOIz4QKlIJHjYbR4oHER4NB+zNAAAAMHRSTlPsmg3TVpcuJfpr\/PMcXERc+GP7hLuu\/NWPAPn6+\/lQMK0WzJBwDfXYrvtVhSxjdyA5CaQKAAAJOUlEQVR42u1aiXKjOBDF+Ew2zty7Cw6SkADf9v\/\/3epWtxDgmarUzlRFlaoAEu+1Wq0+hLPinVv2mxG0bVunntf5Oq8fJiCsKsuSNz30RfYm22zRRh2r5Xy3282Xq4cIqAQvK90I6li8uZZd4PN8uXPtkE8TEAuuGwMdszfQFkA7O9hepgio1E7lp1AFNX15Q23t9TYH8PI6nyCQoBJeENpUmuVun1+Mbm7r9U1fdW4dnoxuTqvXg75ajhNcFQEz9sCgkrSCZhp1rZf6ZhdAo570G6\/6ej1KIOGryt1wxWAVoeUv+jcnhflkOz5psgkCoHeq7mjQkLcdrSWjI21BTu+5Wo\/DGIGGvCM6EkzUmz+gOyC1K7r5GMFdrWyRINA2VA8R1JDg+wQB2F51UBGegb7LE5CHKRVpK+Xu5qx2hJGu7YLhyJcCnbLSo3MRK7Ug30YJhMR0q0zUfuMQcwHWeAYw53lY491qlICWeiMovTQKvyTIEd0k0tr4jAvQikTN63yl8ef1+E4+V1ztZc71jvATsFOQ5m\/\/zwqoFuMldokJ9J2d2l2ldhPKqwJfjVzRLHR8Qs7uNO2umRY9kl8xZEl85yEG8FMBh\/DShAQSdSw6q6bI3axdQFiuHwyZlFwbQhOB8bK43RaXfkf++vTt9Lr+Q4J+8nmetz9BQAVXa9zESrrM1Dpns0hHtY35Ty+PEag1rkw4Y3cIn3XJoH8KNnR4eYDgbOJxz5BuHdwHX7z4y\/Ft0CMQAV5Hfxd9Zh0O+rdEyIfBbcTZOXTbSD9nCXutPezidholOBuxrfz6SvtWhd\/1GfI+\/nhM1s466EffVBuSkF877\/z7LtWeBgmEzbZKMAfFkHUp\/C6b79LtNEAgfMYokVll5Jcs2TNUTEhQ\/zqClG45xJCBSBAIrs6ryj+IL22ntfaE8J9qvB6nBIEAOe\/V+G0jf9dFXlqvOMLXeHWaIfNRIMbXDLH8liGBr2123mfI+vgExJ7suevhSwaIf\/RYbWoOhqBJyK\/aP106ikH5\/wVuD9rVChBQYD8QPw\/wzxnI+FYe\/3j8mgFHjTxHHghYWn6wwST+pkkIevw7Q1ODK30KBAP4LcIPSesq4H\/NYEqJGUyGpAhIGj9UfRJf7Yg7Kmqs\/LCc0mo94HotgxrC+CZF1PgbvT4EJXNOflQR+gRStVdHwN0KR552hvFdbHBLcPwri+1Xtxfk9QBBydIE2Waj8StM4PFxGubKNkjA+lssEDw\/K3ztvZ0GYwKsomKJzCjTebTz0jiP+GKy3Y3JVl0tUhTf1NufPX5EsOwv8j1sM8SQOwOyhTk00yA\/NtNgYrt5G++DMp7DrJP4LoepBFAyxJ+l8W1ky9z5hIlfeB0uWWZOFio4AZmxQ\/zuksa3FXnmHbNN2ZGWNp63rH6A7Qrws9kA\/gm5a26CvBY3MJDKn4pUmy5s2AXA7z6vkvjLKOBwowoN6BiuJcTvvC7WbwB\/d\/RHOLDWOdRxyCzNKlchYbwqxXCjuk0XCj+E\/\/noD4mWKXwQ9HXOWxlNEXvwEuQPFh8OvuSkPh+9xSP5k2nLvvQWUzaEJfDVed0MJEYOX67oapnGR4mXy9tt+gjw05nX8\/GYTLwOg6ljZS0J4\/\/Is2TqOHvZTeNHyS93bgcQMFzBouR3Pokfp+\/c25JjYP0qPDiIfBK\/V4AYhrDBbIxoe8l7WyQZDpMlFA+pNXRwkZa8f1hj\/OUDReA5uCXk+W79AioK8rvdp4fKWHq2JWCUA9gTU3l42kYn19b\/f8ofLsTvlNJkHX5ZXBIHBu3L6nW1\/jO+H3wQfBB8EHwQfBD8\/wS1bHf0fUE+8D1FqqPwL1D\/pKZ+ECbwJ2mMggRADapdh4vRjT+OVN8l\/duFG+veZmkC946sS0y1QAN3+CTMEEHAbVyfJOBDBFY8RwC6zgWSt4BMZZj3dmAGqtSuFSzHBEalIoBAaoZnYLio68IExIvgL2B2EcpQvwiJGejvY2WxNUNSBMyura4YKDq4dfe1031qBnoctw9GCVhEcPZDvMCpGfj8k2CCyr0tHEEZ1f5hBm4MTRO0pT+dSRH4GdRRgncOBNQIKNVtEvC6Ql\/diDeUUYKi\/3HBn0oZ0bm3XPxZT38nEMWIipJ+BcxAQe8pC0c0VfSSszhMwBdCCGWCwzOgYD2SW49yxvl+ryxw3yMILUnQOALa7COvogyiDL8ssS1JYP616RnErsP7xbAPyCABgS25BrXrMOACmpjssrdbD0J\/OeAwRuh7RDTKBKsnRzWMnX+RQNpXdZ8cxZHB\/hSBOnqbngFLE4SoWxf26n6H\/8wht9yLOGr74Ov\/aRfZOy8i\/TBmIpLavSWnbgbG\/LbIATdGZLcpGDLhNAEJMdUOp4jAxeZRAuyuBwk4QAR7qEEEmypJUE6qSBJIh934Xaryo5py74sNU5jBwo6613VjxRgn2Bep2Ew9YaWFFmYgcEwgfZmcQRTJvKeoQ1ZkNRgR0BLlRaMETYLg7qKO1JjxsWX4vP0wwT50xgTB6bnoGz5hwOxvhIANzYBGBOZYST29Rr79PEogUB5XY2fjM95K1P1w56SgowSNw6EooBMebsGeEzjqN65rhEAHqb1oWAm1y0ByrI\/n1e8KiYBP3Q8y+YQvAhsXfJ2oEBKDcbzB+imnnB1g4MiCRB2pQrd9tABkyJvSLYjIpBFMNDDInK9xkGh0o\/jXMWTYXb9TEfjuBFScGf0oxIcIGmJtgDTGJLYgrSLkSpy1bGUf\/HmZHE\/0G2C8GkWarS8ssrhKwYVs7NjstqDF6HjTFuMEoBjjBaj2QQ6QGg9z6xIQ2LpY+zGZ3YedHrJmpvJ++ceDh7PjzT\/r6QSTTYi9S+3RDLSf2Ds5iCPY9xJI7zdtzKC9D7m2WO4RcOuhiStd6rJfT0npqtZfCkfa9FNUGhPUTnAKDznMDBohtt712+r2DscbAtEIAjMFTOCDb4IgjMIOvXYXDXrRjdIElcs3fJQcJdjDWLov0AxSBFi7fJKAopDJforA944Q0BC8an\/1IEEIRAQScEBABfipLkGLcZ4maPSaycF+m\/QITJlL4ZKR0my+Bwi4fQGU2LGKVJ7oXJHN8BpY8o8TWC2MEYCjR\/eIPE4w2iz7+wWcKDt\/FwL23gR\/+Ax+16ziP8mtdEUFg3SBAAAAAElFTkSuQmCC';
 function renderHome(m){
@@ -868,10 +900,10 @@ function openSheet(k){
   $('#shO').innerHTML = rows;
   $('#shAdm').hidden = k!=='cat';
   $('#shO').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ S[k] = b.dataset.v || (k==='sort'?'name':''); closeSheet(); refresh(); });
-  document.body.classList.add('sheet-on');
+  document.body.classList.add('sheet-on'); ovPush();
   const f = $('#shO .opt.sel') || $('#shO .opt'); f && f.focus({preventScroll:true});
 }
-function closeSheet(){ const sh = $('.sheet'); if (sh){ sh.style.transform=''; sh.classList.remove('drag'); } document.body.classList.remove('sheet-on'); }
+function closeSheet(silent){ const sh = $('.sheet'), was = document.body.classList.contains('sheet-on'); if (sh){ sh.style.transform=''; sh.classList.remove('drag'); } document.body.classList.remove('sheet-on'); if (was && silent!==true) ovPop(); }
 (()=>{ const sh = document.querySelector('.sheet'); if (!sh) return; let y0 = null, dy = 0, t0 = 0;
   sh.addEventListener('touchstart', e=>{ const o = $('#shO'); if (o && o.contains(e.target) && o.scrollTop > 0) { y0 = null; return; } y0 = e.touches[0].clientY; dy = 0; t0 = Date.now(); }, {passive:true});
   sh.addEventListener('touchmove', e=>{ if (y0===null) return; dy = Math.max(0, e.touches[0].clientY - y0); if (dy > 4){ sh.classList.add('drag'); sh.style.transform = `translateY(${dy}px)`; } }, {passive:true});
@@ -939,12 +971,13 @@ function profile(id){
     <div class="dfoot"><span>${x.lastContactDate?'קשר אחרון: '+esc(dateHe(x.lastContactDate)):''}</span><button class="btn dark adm" onclick="editExpert('${esc(x.id)}')">עריכת פרופיל</button></div>`;
   show('scrim'); show('drawer'); document.body.classList.add('dr-on');
 }
-function closeDrawer(){ hide('scrim'); hide('drawer'); document.body.classList.remove('dr-on'); }
+function closeDrawer(silent){ const was = $('#drawer').classList.contains('on'); hide('scrim'); hide('drawer'); document.body.classList.remove('dr-on'); if (was && !silent) ovPop(); }
+window.addEventListener('popstate', () => { closeSheet(true); hide('confirm'); hide('modal', true); closeDrawer(true); });
 async function copy(t){ try{ await navigator.clipboard.writeText(t); toast('הועתק ללוח'); }catch(e){ toast(t); } }
 
 let selSecondary = [], newPhoto = null, newThumb = null, newDeck = null;
 function editExpert(id, pre){
-  closeDrawer();
+  closeDrawer(true);
   editing = D.experts.find(x=>x.id===id) || null;
   pendingSug = pre && pre._sug || null;
   const x = editing || norm(pre || {name:'',role:'',organization:'',primaryCategoryId:''});
@@ -1038,7 +1071,7 @@ function goBack(){ go(S.from && S.from!=='experts' ? S.from : 'experts', {q:'',c
 function renderSuggest(m){
   const fld = (k,l,o={}) => `<div class="field" id="w_s_${k}"><label>${l}${o.req?' <em>*</em>':''}</label><input id="s_${k}" ${o.type?`type="${o.type}"`:''} ${o.dir?`dir="${o.dir}"`:''} placeholder="${esc(o.ph||'')}">${o.req?'<div class="err">שדה חובה</div>':''}</div>`;
   const step = (n,t,sub,body) => `<section class="step"><div class="num">${n}</div><div><h4>${t}</h4><p class="sub">${sub}</p>${body}</div></section>`;
-  m.innerHTML = `<div class="pagehead left"><div class="eyebrow">הרחבת האטלס</div><h1>הצעת מומחה למאגר</h1><p style="margin-top:6px">פגשתם מישהו ששווה להכיר? ספרו עליו בכמה שורות. ההצעה תעבור לאישור, ורק אחר כך תופיע במאגר.</p></div>
+  m.innerHTML = `<div class="pagehead left"><div class="eyebrow">הרחבת המאגר</div><h1>הצעת מומחה למאגר</h1><p style="margin-top:6px">פגשתם מישהו ששווה להכיר? ספרו עליו בכמה שורות. ההצעה תעבור לאישור, ורק אחר כך תופיע במאגר.</p></div>
   <form class="sform" onsubmit="event.preventDefault();sendSuggestion()">
     ${step(1,'את מי פגשתם?','שם, תפקיד והארגון שבו הם עובדים', `<div class="sgrid">${fld('name','שם מלא',{req:1,ph:'שם פרטי ומשפחה'})}${fld('role','תפקיד',{ph:'למשל: מנהלת אגף תכנון'})}${fld('organization','ארגון / רשות',{ph:'למשל: עיריית שדרות'})}</div>`)}
     ${step(2,'מתי ואיפה נפגשתם?','תאריך המפגש ובאיזו מסגרת', `<div class="sgrid">${fld('meetingDate','תאריך המפגש',{type:'date'})}${fld('connectionContext','במסגרת',{ph:'למשל: יום עיון בנושא חברה וקהילה'})}</div>`)}
@@ -1069,6 +1102,25 @@ function renderInbox(m){
     <div class="kv2">${row('תאריך המפגש', x.meetingDate?dateHe(x.meetingDate):'')}${row('במסגרת', x.connectionContext)}${row('הערך המוסף', x.value)}${row('תחום מוצע', x.category)}${row('טלפון', x.phone)}${row('דוא״ל', x.email)}${row('LinkedIn', x.linkedIn)}${row('מצגת', x.deckUrl)}${row('הוצע על ידי', x.submitter)}</div>
     <div class="acts"><button class="btn dark" onclick="approveSug('${esc(x.id)}')">הוספה למאגר</button><button class="btn" onclick="rejectSug('${esc(x.id)}')">דחייה</button></div></div>`).join('') : `<div class="empty"><b>אין הצעות ממתינות</b>הצעות חדשות מחברי הקבוצה יופיעו כאן.</div>`}`;
 }
+
+const GF = [['meetingDate','תאריך מפגש',x=>!!parseDate(x.meetingDate)],['connectionContext','מסגרת המפגש',x=>!!x.connectionContext],['deckUrl','מצגת',x=>!!x.deckUrl],['about','פירוט יכולות',x=>!!(x.additionalInterests||(x.assistanceTopics||[]).length)],['phone','טלפון',x=>!!x.phone],['email','דוא״ל',x=>!!x.email],['linkedIn','לינקדאין',x=>!!x.linkedIn],['photo','תמונה',x=>!!(x.imageDriveFileId||x.thumb)],['orgType','סוג ארגון',x=>!!x.orgType],['meetType','איפה נפגשנו',x=>!!x.meetType]];
+const gapsOf = x => GF.filter(f=>!f[2](x)).map(f=>f[1]);
+let gapsAll = false;
+function renderGaps(m){
+  const rows = D.experts.map(x=>({x, miss:gapsOf(x)})).sort((a,b)=>b.miss.length-a.miss.length || String(a.x.name).localeCompare(String(b.x.name),'he'));
+  const full = rows.filter(r=>!r.miss.length).length, shown = gapsAll ? rows : rows.filter(r=>r.miss.length);
+  const per = GF.map(f=>D.experts.filter(x=>!f[2](x)).length);
+  const top = GF.map((f,i)=>[f[1],per[i]]).filter(z=>z[1]).sort((a,b)=>b[1]-a[1])[0];
+  const mark = ok => ok ? '<span class="gk" aria-label="קיים">✓</span>' : '<span class="gx" aria-label="חסר">✕</span>';
+  m.innerHTML = `<div class="pagehead left"><div class="eyebrow">גלוי רק במצב עריכה</div><h1>מה חסר במאגר</h1><p style="margin-top:6px">✓ ירוק - קיים, ✕ אדום - חסר. לחיצה על שם פותחת את טופס העריכה.</p></div>
+  <div class="gsum"><div><b>${D.experts.length - full}</b>פרופילים עם חוסרים</div><div><b>${full}</b>פרופילים מלאים</div>${top?`<div><b>${top[1]}</b>חסר הכי הרבה: ${esc(top[0])}</div>`:''}</div>
+  <label class="gopt"><input type="checkbox" id="gall" ${gapsAll?'checked':''}> הצגת גם פרופילים מלאים</label>
+  ${shown.length ? `<div class="gwrap"><table class="gtab"><thead><tr><th class="nm">מומחה</th><th>הושלם</th>${GF.map(f=>`<th>${f[1]}</th>`).join('')}</tr></thead>
+  <tbody>${shown.map(r=>`<tr><td class="nm"><button onclick="editExpert('${esc(r.x.id)}')">${esc(r.x.name)}</button><small>${esc(r.x.organization||'')}</small></td><td><span class="gpct">${GF.length-r.miss.length}/${GF.length}</span></td>${GF.map(f=>`<td>${mark(f[2](r.x))}</td>`).join('')}</tr>`).join('')}</tbody>
+  <tfoot><tr><td class="nm">חסר אצל</td><td></td>${per.map(n=>`<td class="${n?'':'ok'}">${n||'✓'}</td>`).join('')}</tr></tfoot></table></div>
+  <p class="gnote">בטלפון אפשר לגלול את הטבלה הצידה.</p>` : `<div class="empty"><b>כל הפרופילים מלאים</b>אין מה להשלים כרגע.</div>`}`;
+  $('#gall').onchange = e => { gapsAll = e.target.checked; renderGaps(m); };
+}
 function approveSug(id){
   const x = SUGS.find(z=>z.id===id); if(!x) return;
   const c = D.categories.find(k=>k.name===x.category);
@@ -1084,10 +1136,10 @@ document.addEventListener('keydown', e => {
 if (!LIVE) document.body.insertAdjacentHTML('beforeend','<div class="preview">תצוגה מקדימה: שינויים כאן לא נשמרים</div>');
 const h = (location.hash||'').slice(1); if (['experts','suggest'].includes(h)) S.page = h;
 if (ADMIN) document.body.classList.add('admin');
-(k => { if (!k) return; KEY = k; run('checkKey', k).then(ok => { ADMIN = !!ok; if (ADMIN){ document.body.classList.add('admin'); loadSuggestions(); } }).catch(()=>{}); })(K0);
+(k => { if (!k) return; KEY = k; run('checkKey', k).then(ok => { ADMIN = !!ok; if (ADMIN){ document.body.classList.add('admin'); loadSuggestions(); if (['inbox','gaps'].includes(h)) go(h); else if (loaded) counts(); } }).catch(()=>{}); })(K0);
 if (!LIVE) setTimeout(loadSuggestions, 300);
 document.querySelectorAll('#nav button,#tabs button').forEach(b=>b.classList.toggle('on', b.dataset.p===S.page));
-Object.assign(window,{openSheet,closeSheet,goBack,editExpert,go,profile,closeDrawer,hide,copy,askDelete,addCategory,saveCat,saveForm,sendSuggestion,approveSug,rejectSug});
+Object.assign(window,{reloadData:()=>{ loaded=false; render(); load(); },openSheet,closeSheet,goBack,editExpert,go,profile,closeDrawer,hide,copy,askDelete,addCategory,saveCat,saveForm,sendSuggestion,approveSug,rejectSug});
 render(); load();
 })();
 </script>
