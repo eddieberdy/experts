@@ -1048,7 +1048,7 @@ async function saveForm(){
   p.assistanceTopics = $('#f_assistanceTopics').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).map(s=>'• '+s.replace(/^[•\-\s]+/,''));
   const btn = $('#sv'), wasEdit = !!editing; btn.disabled = true; btn.textContent = 'שומר…';
   try{
-    const r = await run('saveExpert', p, KEY);
+    const r = await run('saveExpert', p, KEY); if (!editing) editing = {...p, id:r.id};
     if (newPhoto){ await run('uploadImage', r.id, newPhoto, newThumb, KEY); photos[r.id] = newPhoto; }
     if (newDeck){ btn.textContent = 'מעלה את המצגת…'; await run('uploadDeck', r.id, newDeck.data, newDeck.name, KEY); newDeck = null; }
     if (pendingSug){ await run('setSuggestionStatus', KEY, pendingSug, 'approved'); SUGS = SUGS.filter(z=>z.id!==pendingSug); pendingSug = null; }
@@ -1130,7 +1130,7 @@ function renderGaps(m){
 function approveSug(id){
   const x = SUGS.find(z=>z.id===id); if(!x) return;
   const c = D.categories.find(k=>k.name===x.category);
-  editExpert(null, {_sug:x.id, name:x.name, role:x.role, organization:x.organization, meetingDate:x.meetingDate, connectionContext:x.connectionContext, additionalInterests:x.value, phone:x.phone, email:x.email, linkedIn:x.linkedIn, deckUrl:x.deckUrl, primaryCategoryId:c?c.id:'', notes:x.submitter?'הוצע על ידי '+x.submitter:''});
+  const cc = String(x.connectionContext||''), og = String(x.organization||''); const meetType = /^הרצאה/.test(cc) ? 'הרצאה בקורס' : /יום עיון/.test(cc) ? 'יום עיון' : /סיור/.test(cc) ? 'סיור לימודי' : /התנסות/.test(cc) ? 'התנסות' : ''; const orgType = /^(עיריית|עירית|מועצה|מועצת)/.test(og) ? 'רשות מקומית' : /^משרד/.test(og) ? 'משרד ממשלתי' : ''; editExpert(null, {_sug:x.id, meetType, orgType, name:x.name, role:x.role, organization:x.organization, meetingDate:x.meetingDate, connectionContext:x.connectionContext, additionalInterests:x.value, phone:x.phone, email:x.email, linkedIn:x.linkedIn, deckUrl:x.deckUrl, primaryCategoryId:c?c.id:'', notes:x.submitter?'הוצע על ידי '+x.submitter:''});
 }
 async function rejectSug(id){ try{ await run('setSuggestionStatus', KEY, id, 'rejected'); SUGS = SUGS.filter(z=>z.id!==id); counts(); render(); toast('ההצעה נדחתה'); }catch(e){ toast(e.message); } }
 
