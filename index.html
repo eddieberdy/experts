@@ -271,8 +271,8 @@ body.sheet-on,body.dr-on{overflow:hidden}
 
 .scrim{position:fixed;inset:0;background:rgba(9,17,28,.42);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.22s;z-index:20}
 .scrim.on{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;bottom:0;left:0;width:min(520px,100%);background:var(--paper);z-index:21;transform:translateX(-102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
-.drawer.on{transform:none}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(520px,100%);background:var(--paper);z-index:21;transform:translateX(-102%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s .28s;display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.drawer.on{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
 .dbody,.dialog .bd{overscroll-behavior:contain}
 .dhead{background:radial-gradient(120% 140% at 90% 0%,#22405F,#0E1B2C);color:#fff;padding:22px 26px 26px;position:relative}
 .dhead .close{position:absolute;left:16px;top:16px}
@@ -775,9 +775,9 @@ async function loadPhotos(){
 }
 const mono = x => { const u = photos[x.id] || x.thumb; return `<div class="mono" data-av="${esc(x.id)}">${u?`<img alt="" src="${u}">`:silhouette(x)}</div>`; };
 
-function matches(x){
-  const q = S.q.trim().toLowerCase();
-  if (q && ![x.name,x.role,x.organization,catName(x.primaryCategoryId),...(x.assistanceTopics||[]),x.additionalInterests,x.notes].join(' ').toLowerCase().includes(q)) return false;
+const fold = s => String(s||'').toLowerCase().replace(/[״"׳'`־-]/g,''); function matches(x){
+  const q = fold(S.q.trim());
+  if (q && !fold([x.name,x.role,x.organization,catName(x.primaryCategoryId),...(x.assistanceTopics||[]),x.additionalInterests,ADMIN?x.notes:''].join(' ')).includes(q)) return false;
   if (S.cat && !inCat(x,S.cat)) return false;
   if (S.org && x.organization!==S.org) return false;
   if (S.otype && (x.orgType||'') !== S.otype) return false;
