@@ -1021,7 +1021,7 @@ function editExpert(id, pre){
     </div><button type="submit" hidden></button></form>
     <div class="ft"><button class="btn dark" id="sv" onclick="saveForm()">שמירה</button><button class="btn" onclick="hide('modal')">ביטול</button>${editing?`<button class="btn danger" onclick="askDelete()">מחיקה</button>`:''}</div>`;
   document.querySelectorAll('#ms button').forEach(b=>b.onclick=()=>{ const i=b.dataset.id; selSecondary = selSecondary.includes(i)?selSecondary.filter(z=>z!==i):[...selSecondary,i]; b.classList.toggle('on'); });
-  $('#deck').onchange = async e => { const file = e.target.files[0]; newDeck = null; if(!file) return; if (file.size > 15*1024*1024){ toast('הקובץ גדול מ-15MB. אפשר להעלות אותו לדרייב ולהדביק קישור'); e.target.value=''; return; } try{ newDeck = await readDeck(file); $('#deckHint').textContent = 'הקובץ ' + file.name + ' יועלה בשמירה'; }catch(err){ toast(err.message); e.target.value=''; } };
+  $('#deck').onchange = async e => { const file = e.target.files[0]; newDeck = null; if(!file) return; if (file.size > 15*1024*1024){ toast('הקובץ גדול מ-15MB. אפשר להעלות אותו לדרייב ולהדביק קישור.'); e.target.value=''; return; } try{ newDeck = await readDeck(file); $('#deckHint').textContent = 'הקובץ ' + file.name + ' יועלה בשמירה'; }catch(err){ toast(err.message); e.target.value=''; } };
   $('#photo').onchange = async e => { const file = e.target.files[0]; if(!file) return; newPhoto = await shrink(file); newThumb = await shrink(file,180,.78); $('#pv').innerHTML = `<img alt="" src="${newPhoto}">`; };
   ['name','primaryCategoryId'].forEach(k=>$('#f_'+k).addEventListener('input',()=>$('#w_'+k).classList.remove('bad')));
   show('modal'); setTimeout(()=>$('#f_name').focus(),50);
@@ -1120,7 +1120,7 @@ function renderGaps(m){
   const mark = ok => ok ? '<span class="gk" aria-label="קיים">✓</span>' : '<span class="gx" aria-label="חסר">✕</span>';
   m.innerHTML = `<div class="pagehead left"><div class="eyebrow">גלוי רק במצב עריכה</div><h1>מה חסר במאגר</h1><p style="margin-top:6px">✓ ירוק - קיים, ✕ אדום - חסר. לחיצה על שם פותחת את טופס העריכה.</p></div>
   <div class="gsum"><div><b>${D.experts.length - full}</b>פרופילים עם חוסרים</div><div><b>${full}</b>פרופילים מלאים</div>${top?`<div><b>${top[1]}</b>חסר הכי הרבה: ${esc(top[0])}</div>`:''}</div>
-  <label class="gopt"><input type="checkbox" id="gall" ${gapsAll?'checked':''}> הצגת גם פרופילים מלאים</label>
+  <label class="gopt"><input type="checkbox" id="gall" ${gapsAll?'checked':''}> להציג גם פרופילים מלאים</label>
   ${shown.length ? `<div class="gwrap"><table class="gtab"><thead><tr><th class="nm">מומחה</th><th>הושלם</th>${GF.map(f=>`<th>${f[1]}</th>`).join('')}</tr></thead>
   <tbody>${shown.map(r=>`<tr><td class="nm"><button onclick="editExpert('${esc(r.x.id)}')">${esc(r.x.name)}</button><small>${esc(r.x.organization||'')}</small></td><td><span class="gpct">${GF.length-r.miss.length}/${GF.length}</span></td>${GF.map(f=>`<td>${mark(f[2](r.x))}</td>`).join('')}</tr>`).join('')}</tbody>
   <tfoot><tr><td class="nm">חסר אצל</td><td></td>${per.map(n=>`<td class="${n?'':'ok'}">${n||'✓'}</td>`).join('')}</tr></tfoot></table></div>
