@@ -683,12 +683,12 @@ const DEMO = {categories:[
   ['cat_7','שירות לתושב'],['cat_8','חירום וביטחון'],['cat_9','חברה וקהילה'],['cat_10','משפט ורגולציה'],['cat_11','דיגיטל ומערכות מידע']
 ].map((c,i)=>({id:c[0],name:c[1],sortOrder:i+1,active:true})),
 experts:[
-  {id:'e1',name:'נעם פריזנט',role:'מנהל אגף תכנון ובקרה',organization:'החברה הכלכלית של מועצה אזורית בני שמעון',primaryCategoryId:'cat_2',assistanceTopics:['צוער בוגר התוכנית','רתימת שותפים','תכנון פרויקטים כלכליים ארוכי טווח'],phone:'0508569998',email:'noam_p@bns.org.il',meetingDate:'2026-11-04',connectionContext:'יום עיון בנושא פיתוח כלכלי',additionalInterests:'מנהל אגף תכנון ובקרה בחברה הכלכלית של מועצה אזורית בני שמעון, ובוגר קורס הצוערים.'},
-  {id:'e2',name:'לימור עמית',role:'מנהלת מינהלת התחדשות עירונית',organization:'באר יעקב',primaryCategoryId:'cat_5',assistanceTopics:['התחדשות עירונית','ניהול מינהלת התחדשות עירונית'],phone:'0544680321'},
-  {id:'e3',name:'קרן בר',role:'מחזיקת תיק בינה מלאכותית',organization:'עיריית רמת גן',primaryCategoryId:'cat_11',assistanceTopics:['בינה מלאכותית בשלטון המקומי','קידום תחום הבינה המלאכותית בעירייה'],phone:'0529456171'},
-  {id:'e4',name:'ערן טל',role:'מנכ״ל וולטה סולאר',organization:'וולטה סולאר',primaryCategoryId:'cat_6',assistanceTopics:['אנרגיה סולארית','ייזום בתחום האנרגיה המתחדשת'],phone:'0528727363'},
-  {id:'e5',name:'רותם ניסים',role:'סמנכ״לית פיתוח עסקי ויזמות',organization:'החברה הכלכלית בת ים',primaryCategoryId:'cat_4',assistanceTopics:['פיתוח עסקי','יזמות בחברה כלכלית עירונית'],notes:'מספר הטלפון טרם נמסר.'},
-  {id:'e6',name:'ד״ר אורנה יהודה אברמסון',role:'מנהלת המחלקה המוניציפלית, מערך הייעוץ העסקי',organization:'KPMG סומך חייקין',primaryCategoryId:'cat_1',assistanceTopics:['ייעוץ עסקי לרשויות מקומיות','מומחיות בתחום המוניציפלי'],phone:'0548081596'}
+  {id:'e1',name:'דנה לוי',role:'מנהלת אגף תכנון',organization:'החברה הכלכלית לדוגמה',primaryCategoryId:'cat_2',phone:'050-0000001',email:'dana@example.org.il',meetingDate:'2026-11-04',connectionContext:'יום עיון בנושא פיתוח כלכלי',additionalInterests:'נתוני הדגמה בלבד. עוסקת בתכנון פרויקטים כלכליים ברשות.'},
+  {id:'e2',name:'יוסי כהן',role:'מנהל מינהלת התחדשות עירונית',organization:'עיריית דוגמה',primaryCategoryId:'cat_5',phone:'050-0000002',email:'yossi@example.org.il',meetingDate:'2026-11-11',connectionContext:'יום עיון בנושא התחדשות עירונית',additionalInterests:'נתוני הדגמה בלבד. מלווה תהליכי התחדשות עירונית.'},
+  {id:'e3',name:'מיכל אברהם',role:'מנהלת תחום חדשנות',organization:'עיריית דוגמה',primaryCategoryId:'cat_11',email:'michal@example.org.il',meetingDate:'2026-11-08',connectionContext:'יום עיון בנושא חדשנות ודיגיטציה',additionalInterests:'נתוני הדגמה בלבד. מקדמת כלים דיגיטליים ברשות.'},
+  {id:'e4',name:'אורי מזרחי',role:'מנכ״ל',organization:'חברת אנרגיה לדוגמה',primaryCategoryId:'cat_6',phone:'050-0000004',meetingDate:'2026-09-16',connectionContext:'יום עיון בנושא אקלים וקיימות',additionalInterests:'נתוני הדגמה בלבד. עוסק בפרויקטים של אנרגיה מתחדשת.'},
+  {id:'e5',name:'נועה שמעוני',role:'סמנכ״לית פיתוח עסקי',organization:'חברה כלכלית לדוגמה',primaryCategoryId:'cat_4',meetingDate:'2026-09-06',connectionContext:'הרצאה בקורס בנושא פיתוח כלכלי',additionalInterests:'נתוני הדגמה בלבד. מובילה פיתוח עסקי ויזמות.'},
+  {id:'e6',name:'ד״ר רון ברק',role:'יועץ אסטרטגי',organization:'משרד ייעוץ לדוגמה',primaryCategoryId:'cat_1',phone:'050-0000006',meetingDate:'2026-09-07',connectionContext:'יום עיון בנושא תכנון אסטרטגי',additionalInterests:'נתוני הדגמה בלבד. מלווה רשויות בתכנון אסטרטגי.'},
 ]};
 
 const $ = s => document.querySelector(s);
@@ -853,7 +853,7 @@ function renderHome(m){
 const stat = (ic,label,n) => `<div class="stat"><div class="ic">${icon(ic)}</div><div><span>${label}</span><b>${n}</b></div></div>`;
 const emptyState = () => `<div class="empty"><b>המאגר עדיין ריק</b>הוסיפו את המומחה הראשון, והוא יופיע כאן.<br><br><button class="btn dark adm" onclick="editExpert()">הוספת מומחה</button></div>`;
 
-const hookOf = x => { const ss = String(x.additionalInterests||'').split('. ').map((s,i,a)=>i<a.length-1?s+'.':s).map(s=>s.trim()).filter(Boolean); return ss.find(s=>/^(אפשר|כדאי|ניתן)/.test(s)) || ss[0] || ''; }; function card(x){
+const hookOf = x => { const ss = String(x.additionalInterests||'').split('. ').map((s,i,a)=>i<a.length-1?s+'.':s).map(s=>s.trim()).filter(Boolean); return ss[ss.length-1] || ''; }; function card(x){
   const c = catColor(x.primaryCategoryId), d = parseDate(x.meetingDate), mtxt = d&&d[1]>=1&&d[1]<=12?`נפגשנו ב${MONTHS[d[1]-1]} ${d[0]}`:'', hk = hookOf(x);
   return `<article class="card" tabindex="0" onclick="profile('${esc(x.id)}')" onkeydown="if(event.key==='Enter')profile('${esc(x.id)}')">
     <div class="ctop"><span class="dlabel" style="--c:${deep(c)}">${dsvg(x.primaryCategoryId)}${esc(catName(x.primaryCategoryId))}</span>${x.deckUrl?`<span class="hasdeck">${icon('deck')}מצגת</span>`:''}${mtxt?`<span class="mm">${mtxt.replace('נפגשנו ב','')}</span>`:''}</div>
